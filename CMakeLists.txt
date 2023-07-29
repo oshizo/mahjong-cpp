@@ -90,3 +90,6 @@ option(BUILD_SAMPLES "build sample programs." ON)
 if(BUILD_SAMPLES)
   add_subdirectory(src/samples)
 endif()
+
+add_subdirectory(extern/pybind11)
+add_subdirectory(src/python_bindings)
