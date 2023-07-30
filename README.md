@@ -1,3 +1,20 @@
+pybind11を使ってPythonからmahjong-cppを使うためのフォークです。
+
+## pyd作成までの作業手順メモ
+* pybind11をサブモジュールとして追加
+* CMakeLists.txtを編集
+* src/python_bindingsを作成
+  * グルーコードを作成 src/python_bindings/mahjong.py
+  * .pydを作成するための設定を作成 src/python_bindings/CMakeLists.txt
+* Windowsでビルドを実施し bin/mahjongpy.cp39-win_amd64.pyd を作成
+* Pythonからの利用方法サンプルを作成 sample.py
+
+  * 実行時、Pythonの実行ファイルがあるところ（システムのPythonインストールパス）に、以下4ファイルをコピーする必要がある
+    * bin/syupai_pattern.json
+    * syupai_table.bin
+    * zihai_pattern.json
+    * zihai_table.bin
+
 # mahjong-cpp
 
 ## About (概要)
