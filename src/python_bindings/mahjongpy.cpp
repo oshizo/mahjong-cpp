@@ -57,5 +57,30 @@ PYBIND11_MODULE(mahjongpy, m)
     py::class_<SyantenCalculator>(m, "SyantenCalculator")
         .def_static("calc", &SyantenCalculator::calc, py::arg("hand"), py::arg("type"));
 
+    py::class_<ScoreCalculator>(m, "ScoreCalculator")
+        .def(py::init<>())
+        .def("set_dora_tiles", &ScoreCalculator::set_dora_tiles, py::arg("tiles"))
+        .def("set_dora_indicators", &ScoreCalculator::set_dora_indicators, py::arg("tiles"))
+        .def("set_bakaze", &ScoreCalculator::set_bakaze, py::arg("tile"))
+        .def("set_zikaze", &ScoreCalculator::set_zikaze, py::arg("tile"))
+        .def("set_num_tumibo", &ScoreCalculator::set_num_tumibo, py::arg("n"))
+        .def("set_num_kyotakubo", &ScoreCalculator::set_num_kyotakubo, py::arg("n"))
+        .def("set_rule", &ScoreCalculator::set_rule, py::arg("rule"), py::arg("enabled"));
 
+    py::class_<Candidate>(m, "Candidate")
+        .def_readonly("tile", &Candidate::tile)
+        .def_readonly("tenpai_probs", &Candidate::tenpai_probs)
+        .def_readonly("win_probs", &Candidate::win_probs)
+        .def_readonly("exp_values", &Candidate::exp_values)
+        .def_readonly("required_tiles", &Candidate::required_tiles)
+        .def_readonly("syanten_down", &Candidate::syanten_down);
+
+    py::class_<ExpectedValueCalculator>(m, "ExpectedValueCalculator")
+        .def(py::init<>())
+        .def("calc",
+             static_cast<std::tuple<bool, std::vector<Candidate>> (ExpectedValueCalculator::*)(
+                 const Hand &, const ScoreCalculator &, const std::vector<int> &, int, int)>(
+                 &ExpectedValueCalculator::calc),
+             py::arg("hand"), py::arg("score_calculator"), py::arg("dora_indicators"),
+             py::arg("syanten_type"), py::arg("flag") = 0);
 }
